@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "lite-server"
   },
-  "author": "Vishnu Sivan",
+  "author": "Ashiq Sazid",
   "license": "ISC",
   "dependencies": {
     "jquery": "^3.6.0",
