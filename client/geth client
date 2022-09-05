@@ -1,0 +1,54 @@
+from web3 import Web3, eth
+web3 = Web3(Web3.HTTPProvider('http://localhost:8545'))
+print(web3.isConnected())
+
+acc_address = '0x1CD1CF07250f41ab4D9F214A162A52A18eA384D6'
+
+web3.geth.personal.unlock_account(Web3.toChecksumAddress(acc_address), '1234')
+web3.geth.miner.setEtherbase(Web3.toChecksumAddress(acc_address))
+
+balance = web3.fromWei(web3.eth.getBalance(Web3.toChecksumAddress('0x1CD1CF07250f41ab4D9F214A162A52A18eA384D6')), "ether")
+
+balance_text = "Eth : "+str(web3.fromWei(web3.eth.getBalance(Web3.toChecksumAddress('0xa553958ffe8d99f5262440ef06a33defb46b7926')), "ether"))
+
+mining_main = False
+
+
+from functools import partial
+
+def startMining():
+    web3.geth.miner.start()
+    mining_label.config(text = 'Mining Started')
+
+def stopMining():
+    web3.geth.miner.stop()
+    mining_label.config(text = 'Mining Stopped')
+
+def checkBalance():
+    balance = web3.fromWei(web3.eth.getBalance(Web3.toChecksumAddress('0x1CD1CF07250f41ab4D9F214A162A52A18eA384D6')), "ether")
+    balance_text = "Eth : "+str(web3.fromWei(web3.eth.getBalance(Web3.toChecksumAddress('0x1CD1CF07250f41ab4D9F214A162A52A18eA384D6')), "ether"))
+    eth_label.config(text = balance_text)
+
+import tkinter as tk
+r = tk.Tk()
+
+
+
+r.title('Miner')
+
+
+button = tk.Button(r, text='Start Mining', width=25, command=startMining)
+button.pack()
+button = tk.Button(r, text='Stop Mining', width=25, command=stopMining)
+button.pack()
+
+mining_label = tk.Label(r, text = "Mining Stopped")
+mining_label.pack()
+
+button = tk.Button(r, text='Check Balance', width=25, command=checkBalance)
+button.pack()
+
+eth_label = tk.Label(r, text = balance_text)
+eth_label.pack()
+
+r.mainloop()
